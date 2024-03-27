@@ -45,7 +45,7 @@ const App = () => {
       const rowOfFour = [i, i + 1, i + 2, i + 3]
       const decidedColor = currentColorArrangement[i]
       const notValid = 
-        [6, 7, 14, 15, 22, 23, 30, 31, 38, 39, 46, 47, 54, 55, 63, 64]
+      [5, 6, 7, 13, 14, 15, 21, 22, 23, 29, 30, 31, 37, 38, 39, 45, 46, 47, 53, 54, 55, 62, 63, 64]
 
       if(notValid.includes(i)) continue
 
@@ -59,10 +59,10 @@ const App = () => {
 
   const checkForRowOfThree = () => {
     for (let i = 0; i < 64; i++) {
-      const rowOfThree = [i, i + 1, i + 1 * 2]
+      const rowOfThree = [i, i + 1, i + 2]
       const decidedColor = currentColorArrangement[i]
       const notValid = 
-        [5, 6, 7, 13, 14, 15, 21, 22, 23, 29, 30, 31, 37, 38, 39, 45, 46, 47, 53, 54, 55, 62, 63, 64]
+      [6, 7, 14, 15, 22, 23, 30, 31, 38, 39, 46, 47, 54, 55, 63, 64]
 
       if(notValid.includes(i)) continue
 
@@ -70,6 +70,15 @@ const App = () => {
         currentColorArrangement[square] === decidedColor)) {
         rowOfThree.forEach(square =>
           currentColorArrangement[square] = '')
+      }
+    }
+  }
+
+  const moveIntoSquareBelow = () => {
+    for (let i = 0; i < 64 - width; i++ ) {
+      if ((currentColorArrangement[i + width]) === '') {
+        currentColorArrangement[i + width] = currentColorArrangement[i]
+        currentColorArrangement[i] = ''
       }
     }
   }
@@ -93,11 +102,12 @@ const App = () => {
       checkForRowOfFour()
       checkForColumnOfThree()
       checkForRowOfThree()
+      moveIntoSquareBelow()
       setCurrentColorArrangement([...currentColorArrangement])
     }, 100)
     return () => clearInterval(timer)
 
-  }, [checkForColumnOfFour, checkForRowOfFour, checkForColumnOfThree,  checkForRowOfThree, currentColorArrangement])
+  }, [checkForColumnOfFour, checkForRowOfFour, checkForColumnOfThree,  checkForRowOfThree, moveIntoSquareBelow, currentColorArrangement])
 
   console.log(currentColorArrangement)
   return (
