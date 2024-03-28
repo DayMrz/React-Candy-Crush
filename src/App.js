@@ -26,6 +26,7 @@ const App = () => {
         currentColorArrangement[square] === decidedColor)) {
         columnOfFour.forEach(square =>
           currentColorArrangement[square] = '')
+          return true
       }
     }
   }
@@ -39,6 +40,7 @@ const App = () => {
         currentColorArrangement[square] === decidedColor)) {
         columnOfThree.forEach(square =>
           currentColorArrangement[square] = '')
+          return true
       }
     }
   }
@@ -56,6 +58,7 @@ const App = () => {
         currentColorArrangement[square] === decidedColor)) {
         rowOfFour.forEach(square =>
           currentColorArrangement[square] = '')
+          return true
       }
     }
   }
@@ -73,6 +76,7 @@ const App = () => {
         currentColorArrangement[square] === decidedColor)) {
         rowOfThree.forEach(square =>
           currentColorArrangement[square] = '')
+          return true
       }
     }
   }
@@ -86,7 +90,6 @@ const App = () => {
         let randomNumber =Math.floor(Math.random() * candyColors.length)
         currentColorArrangement[i] = candyColors[randomNumber]
       }
-
 
       if ((currentColorArrangement[i + width]) === '') {
         currentColorArrangement[i + width] = currentColorArrangement[i]
@@ -123,7 +126,36 @@ const App = () => {
 
     console.log('squareBeingDraggedId', squareBeingDraggedId)
     console.log('squareBeingReplacedId', squareBeingReplacedId)
-  }
+
+    const validMoves = [
+      squareBeingDraggedId - 1,
+      squareBeingDraggedId - width,
+      squareBeingDraggedId + 1,
+      squareBeingDraggedId + width,
+    ]
+
+    const validMove = validMoves.includes(squareBeingReplacedId)
+
+    const isAColumnOfFour = checkForColumnOfFour()
+    const isARowOfFour = checkForRowOfFour()
+    const isAColumnOfThree = checkForColumnOfThree()
+    const isARowOfThree = checkForRowOfThree()
+  
+    if (squareBeingReplacedId &&
+      validMove &&
+      (isAColumnOfFour || isARowOfFour || isAColumnOfThree || isARowOfThree)) {
+        setSquareBeingDragged(null)
+        setSquareBeingReplaced(null)
+      } else {
+        currentColorArrangement[squareBeingReplacedId] =
+          squareBeingReplaced.style.backgroundColor
+        currentColorArrangement[squareBeingDraggedId] =
+          squareBeingDragged.style.backgroundColor
+
+        setCurrentColorArrangement([...currentColorArrangement])
+      }
+}
+
 
 
   const createBoard = () => {
