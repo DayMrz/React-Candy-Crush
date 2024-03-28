@@ -1,13 +1,21 @@
 import { useEffect, useState } from "react"
+import orangeCandy from './images/orange-candy.png'
+import blueCandy from './images/blue-candy.png'
+import purpleCandy from './images/purple-candy.png'
+import greenCandy from './images/green-candy.png'
+import redCandy from './images/red-candy.png'
+import yellowCandy from './images/yellow-candy.png'
+import blank from './images/blank.png'
 
 const width = 8
 const candyColors = [
-  'orange',
-  'blue',
-  'purple',
-  'green',
-  'red',
-  'yellow'
+  orangeCandy,
+  blueCandy,
+  purpleCandy,
+  greenCandy,
+  redCandy,
+  yellowCandy,
+  blank
 ]
 
 const App = () => {
@@ -25,7 +33,7 @@ const App = () => {
       if ( columnOfFour.every(square =>
         currentColorArrangement[square] === decidedColor)) {
         columnOfFour.forEach(square =>
-          currentColorArrangement[square] = '')
+          currentColorArrangement[square] = blank)
           return true
       }
     }
@@ -39,7 +47,7 @@ const App = () => {
       if ( columnOfThree.every(square =>
         currentColorArrangement[square] === decidedColor)) {
         columnOfThree.forEach(square =>
-          currentColorArrangement[square] = '')
+          currentColorArrangement[square] = blank)
           return true
       }
     }
@@ -57,7 +65,7 @@ const App = () => {
       if ( rowOfFour.every(square =>
         currentColorArrangement[square] === decidedColor)) {
         rowOfFour.forEach(square =>
-          currentColorArrangement[square] = '')
+          currentColorArrangement[square] = blank)
           return true
       }
     }
@@ -75,7 +83,7 @@ const App = () => {
       if ( rowOfThree.every(square =>
         currentColorArrangement[square] === decidedColor)) {
         rowOfThree.forEach(square =>
-          currentColorArrangement[square] = '')
+          currentColorArrangement[square] = blank)
           return true
       }
     }
@@ -86,14 +94,14 @@ const App = () => {
       const firstRow = [0, 1, 2, 3, 4, 5, 6, 7]
       const isFirstRow = firstRow.includes(i)
 
-      if(isFirstRow && currentColorArrangement[i] === '') {
+      if(isFirstRow && currentColorArrangement[i] === blank) {
         let randomNumber =Math.floor(Math.random() * candyColors.length)
         currentColorArrangement[i] = candyColors[randomNumber]
       }
 
-      if ((currentColorArrangement[i + width]) === '') {
+      if ((currentColorArrangement[i + width]) === blank) {
         currentColorArrangement[i + width] = currentColorArrangement[i]
-        currentColorArrangement[i] = ''
+        currentColorArrangement[i] = blank
       }
     }
   }
@@ -120,9 +128,9 @@ const App = () => {
       parseInt(squareBeingReplaced.getAttribute('data-id'))
 
     currentColorArrangement[squareBeingReplacedId] =
-      squareBeingDragged.style.backgroundColor
+      squareBeingDragged.getAttribute('src')
     currentColorArrangement[squareBeingDraggedId] =
-      squareBeingReplaced.style.backgroundColor
+      squareBeingReplaced.getAttribute('src')
 
     console.log('squareBeingDraggedId', squareBeingDraggedId)
     console.log('squareBeingReplacedId', squareBeingReplacedId)
@@ -148,15 +156,13 @@ const App = () => {
         setSquareBeingReplaced(null)
       } else {
         currentColorArrangement[squareBeingReplacedId] =
-          squareBeingReplaced.style.backgroundColor
+          squareBeingReplaced.getAttribute('src')
         currentColorArrangement[squareBeingDraggedId] =
-          squareBeingDragged.style.backgroundColor
+          squareBeingDragged.getAttribute('src')
 
         setCurrentColorArrangement([...currentColorArrangement])
       }
 }
-
-
 
   const createBoard = () => {
     const randomColorArrangement = []
@@ -191,7 +197,7 @@ const App = () => {
         {currentColorArrangement.map((candyColor, index) => (
             <img
               key={index}
-              style={{backgroundColor: candyColor}}
+              src={candyColor}
               alt={candyColor}
               data-id={index}
               draggable={true}
